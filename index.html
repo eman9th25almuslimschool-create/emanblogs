@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>روزنامہ — اردو بلاگ پلیٹ فارم</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;500;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ══ HEADER ══ -->
+  <div class="site-header">
+
+    <!-- Breaking News Ticker -->
+    <div class="header-ticker">
+      <span><span class="ticker-label">تازہ خبر:</span> پاکستان میں اے آئی سٹارٹ اپس کی تعداد پانچ سو سے زائد ہو گئی</span>
+      <span><span class="ticker-label">خبر:</span> لاہور فوڈ فیسٹیول ۲۰۲۶ کا آغاز ہو گیا</span>
+      <span><span class="ticker-label">تازہ:</span> ریموٹ ورک میں پاکستانی فری لانسرز ٹاپ پانچ میں</span>
+    </div>
+
+    <!-- Masthead -->
+    <div class="header-main">
+      <div class="header-left">
+        <span>۱۷ مارچ ۲۰۲۶</span> — لاہور، پاکستان
+      </div>
+      <div class="masthead">روز<em>نامہ</em></div>
+      <div>
+        <button class="hdr-btn" onclick="openEditor(null)">+ لکھیں</button>
+      </div>
+    </div>
+
+    <!-- Gold Rule -->
+    <div class="gold-rule"></div>
+
+    <!-- Navigation -->
+    <div class="site-nav">
+      <div class="nav-item active" onclick="filterCat('all', this)">تمام پوسٹس</div>
+      <div class="nav-item" onclick="filterCat('ٹیکنالوجی', this)">ٹیکنالوجی</div>
+      <div class="nav-item" onclick="filterCat('طرزِ زندگی', this)">طرزِ زندگی</div>
+      <div class="nav-item" onclick="filterCat('کاروبار', this)">کاروبار</div>
+      <div class="nav-item" onclick="filterCat('سفر', this)">سفر</div>
+    </div>
+
+  </div><!-- /site-header -->
+
+  <!-- ══ PAGE BODY ══ -->
+  <div class="page-body">
+
+    <!-- ── HOME VIEW ── -->
+    <div id="view-home" class="view active">
+
+      <!-- Toolbar: Search + New Post -->
+      <div class="toolbar-row">
+        <div class="search-box">
+          <span class="s-icon">&#9906;</span>
+          <input type="text" placeholder="مضمون، مصنف یا زمرہ تلاش کریں..." oninput="doSearch(this.value)">
+        </div>
+        <button class="btn-write" onclick="openEditor(null)">+ نئی پوسٹ</button>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div class="cat-strip">
+        <span class="cpill all active"  onclick="filterCat('all', this)">تمام</span>
+        <span class="cpill tech"        onclick="filterCat('ٹیکنالوجی', this)">ٹیکنالوجی</span>
+        <span class="cpill life"        onclick="filterCat('طرزِ زندگی', this)">طرزِ زندگی</span>
+        <span class="cpill biz"         onclick="filterCat('کاروبار', this)">کاروبار</span>
+        <span class="cpill travel"      onclick="filterCat('سفر', this)">سفر</span>
+      </div>
+
+      <!-- Posts Grid (rendered by JS) -->
+      <div id="home-content"></div>
+
+    </div><!-- /view-home -->
+
+    <!-- ── POST VIEW ── -->
+    <div id="view-post" class="view">
+      <button class="back-link" onclick="showView('home')">&#8592; واپس جائیں</button>
+      <div class="post-page">
+        <div id="post-detail"></div>
+        <div class="comments-wrap" id="comments-section"></div>
+      </div>
+    </div><!-- /view-post -->
+
+    <!-- ── EDITOR VIEW ── -->
+    <div id="view-editor" class="view">
+      <button class="back-link" onclick="showView('home')">&#8592; رد کریں</button>
+      <div class="editor-page">
+
+        <div class="ed-title" id="ed-h">نیا مضمون <span>مسودہ</span></div>
+
+        <!-- Title + Category -->
+        <div class="field-row">
+          <div class="field">
+            <label>عنوان — Title</label>
+            <input type="text" id="f-title" placeholder="اپنا ہیڈ لائن لکھیں...">
+          </div>
+          <div class="field">
+            <label>زمرہ — Category</label>
+            <select id="f-cat">
+              <option>ٹیکنالوجی</option>
+              <option>طرزِ زندگی</option>
+              <option>کاروبار</option>
+              <option>سفر</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Excerpt -->
+        <div class="field">
+          <label>مختصر تعارف — Excerpt</label>
+          <input type="text" id="f-excerpt" placeholder="دو تین جملوں میں خلاصہ...">
+        </div>
+
+        <!-- Author -->
+        <div class="field">
+          <label>مصنف — Author</label>
+          <input type="text" id="f-author" placeholder="آپ کا نام...">
+        </div>
+
+        <!-- Rich Text Editor -->
+        <div class="field">
+          <label>مضمون — Rich Text Editor</label>
+
+          <!-- Formatting Toolbar -->
+          <div class="rte-bar">
+            <button class="rb b"  onclick="rf('bold')"              title="Bold">B</button>
+            <button class="rb i"  onclick="rf('italic')"            title="Italic">I</button>
+            <button class="rb u"  onclick="rf('underline')"         title="Underline">U</button>
+            <div class="rte-sep"></div>
+            <button class="rb"    onclick="rf('insertUnorderedList')" title="Bullet List">&#8226; فہرست</button>
+            <button class="rb"    onclick="rf('insertOrderedList')"   title="Numbered List">۱. فہرست</button>
+            <div class="rte-sep"></div>
+            <button class="rb"    onclick="rfb('h3')"               title="Heading" style="font-weight:700">H</button>
+            <button class="rb"    onclick="rfb('p')"                title="Paragraph">&#182;</button>
+            <div class="rte-sep"></div>
+            <button class="rb"    onclick="rf('justifyRight')"      title="Align Right">&#8677;</button>
+            <button class="rb"    onclick="rf('justifyCenter')"     title="Center">&#8644;</button>
+            <div class="rte-sep"></div>
+            <button class="rb"    onclick="rf('removeFormat')"      title="Clear Format" style="color:#c0392b;font-weight:600">&#10005;</button>
+          </div>
+
+          <!-- Editable Content Area -->
+          <div id="rte" contenteditable="true" data-placeholder="یہاں اپنا مضمون لکھیں..."></div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="form-actions">
+          <button class="btn-pub"  onclick="savePost()">شائع کریں &#8594;</button>
+          <button class="btn-disc" onclick="showView('home')">رد کریں</button>
+        </div>
+
+      </div>
+    </div><!-- /view-editor -->
+
+  </div><!-- /page-body -->
+</div><!-- /app -->
+
+<script src="script.js"></script>
+</body>
+</html>
